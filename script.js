@@ -14,9 +14,9 @@ const continueButton = document.querySelector('[data-continue]');
 const confettiLayer = document.querySelector('[data-confetti]');
 const drops = [...document.querySelectorAll('[data-drop]')];
 const difficultySettings = {
-  easy: { duration: 45, fallSpeed: 18 },
-  normal: { duration: 30, fallSpeed: 24 },
-  hard: { duration: 20, fallSpeed: 34 },
+  easy: { duration: 45, fallSpeed: 20 },
+  normal: { duration: 30, fallSpeed: 30 },
+  hard: { duration: 20, fallSpeed: 45 },
 };
 const confettiScoreThreshold = 20;
 let selectedDifficulty;
@@ -113,7 +113,7 @@ function updateGame(now) {
   previousTime = now;
   remainingTime = Math.max(0, remainingTime - elapsed);
   updateTimerDisplay();
-  const fallSpeed = difficultySettings[selectedDifficulty].fallSpeed + ((gameDuration - remainingTime) * 0.2);
+  const fallSpeed = difficultySettings[selectedDifficulty].fallSpeed;
   const fieldHeight = rainField.clientHeight;
   const wellBounds = well.getBoundingClientRect();
   const fieldBounds = rainField.getBoundingClientRect();
