@@ -74,8 +74,8 @@ function checkMilestones() {
 
   announcedMilestones.add(nextMilestone);
   milestoneDisplay.textContent = nextMilestone === 10
-    ? '10 points! Keep going!'
-    : '20 points! Goal reached!';
+    ? "Congrats! You're halfway there."
+    : 'Target met. Now aim for the high score!';
   milestoneDisplay.classList.add('is-visible');
   window.clearTimeout(milestoneTimeout);
   milestoneTimeout = window.setTimeout(() => milestoneDisplay.classList.remove('is-visible'), 2500);
