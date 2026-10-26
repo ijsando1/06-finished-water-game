@@ -14,7 +14,7 @@ const continueButton = document.querySelector('[data-continue]');
 const confettiLayer = document.querySelector('[data-confetti]');
 const drops = [...document.querySelectorAll('[data-drop]')];
 const difficultySettings = {
-  easy: { duration: 45, fallSpeed: 20 },
+  easy: { duration: 40, fallSpeed: 20 },
   normal: { duration: 30, fallSpeed: 30 },
   hard: { duration: 20, fallSpeed: 45 },
 };
