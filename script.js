@@ -11,6 +11,7 @@ const scoreDisplay = document.querySelector('[data-score]');
 const resultMessage = document.querySelector('[data-result-message]');
 const durationDisplay = document.querySelector('[data-duration]');
 const continueButton = document.querySelector('[data-continue]');
+const milestoneDisplay = document.querySelector('[data-milestone]');
 const confettiLayer = document.querySelector('[data-confetti]');
 const drops = [...document.querySelectorAll('[data-drop]')];
 const difficultySettings = {
@@ -25,6 +26,8 @@ let remainingTime = gameDuration;
 let scorePoints = 0;
 let animationFrame;
 let previousTime;
+let milestoneTimeout;
+const announcedMilestones = new Set();
 
 function showScreen(screen) {
   screens.forEach((item) => { item.hidden = item !== screen; });
@@ -38,6 +41,10 @@ function showScreen(screen) {
 
 function startGame() {
   cancelAnimationFrame(animationFrame);
+  window.clearTimeout(milestoneTimeout);
+  milestoneDisplay.textContent = '';
+  milestoneDisplay.classList.remove('is-visible');
+  announcedMilestones.clear();
   confettiLayer.replaceChildren();
   resultMessage.textContent = '';
   gameDuration = difficultySettings[selectedDifficulty].duration;
@@ -59,6 +66,19 @@ function updateScoreDisplay() {
   const displayedScore = String(scorePoints).padStart(2, '0');
   gameScoreDisplay.textContent = displayedScore;
   scoreDisplay.textContent = displayedScore;
+}
+
+function checkMilestones() {
+  const nextMilestone = [10, 20].find((milestone) => scorePoints >= milestone && !announcedMilestones.has(milestone));
+  if (!nextMilestone) return;
+
+  announcedMilestones.add(nextMilestone);
+  milestoneDisplay.textContent = nextMilestone === 10
+    ? '10 points! Keep going!'
+    : '20 points! Goal reached!';
+  milestoneDisplay.classList.add('is-visible');
+  window.clearTimeout(milestoneTimeout);
+  milestoneTimeout = window.setTimeout(() => milestoneDisplay.classList.remove('is-visible'), 2500);
 }
 
 function updateTimerDisplay() {
@@ -105,6 +125,7 @@ function collectDrop(drop) {
   if (drop.classList.contains('dirty')) scorePoints = Math.max(0, scorePoints - 1);
   else scorePoints += 1;
   updateScoreDisplay();
+  checkMilestones();
   window.setTimeout(() => resetDrop(drop, Math.floor(Math.random() * drops.length)), 250);
 }
 

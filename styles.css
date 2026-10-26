@@ -147,6 +147,8 @@ h2 span { color: var(--blue); }
 .game-waterline::before, .game-waterline span { content: ""; position: absolute; left: 0; width: 105%; height: 41px; border-bottom: 2px solid var(--ink-soft); border-radius: 50%; }
 .game-waterline::before { top: -23px; transform: rotate(-1deg); }
 .game-waterline span { top: -16px; border-color: var(--blue); opacity: .45; transform: rotate(1deg); }
+.milestone-message { position: absolute; z-index: 3; top: 58px; left: 50%; width: max-content; max-width: calc(100% - 32px); margin: 0; padding: 10px 16px; border: 1px solid var(--blue); background: var(--paper); box-shadow: 3px 4px 0 rgba(23,45,54,.12); color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-align: center; opacity: 0; pointer-events: none; transform: translate(-50%, -8px); transition: opacity .2s, transform .2s; }
+.milestone-message.is-visible { opacity: 1; transform: translate(-50%, 0); }
 .drop { position: absolute; width: 25px; height: 35px; cursor: pointer; border: 1.5px solid var(--blue); border-radius: 55% 55% 60% 60%; background: rgba(143,199,196,.48); transform: rotate(8deg); transition: opacity .25s, transform .25s; touch-action: manipulation; }
 .drop::after { content: ""; position: absolute; top: 7px; left: 7px; width: 4px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.7); transform: rotate(-18deg); }
 .drop.dirty { border-color: #695238; background: radial-gradient(circle at 65% 67%, #594833 0 2px, transparent 2.5px), radial-gradient(circle at 35% 48%, #766044 0 2px, transparent 2.5px), rgba(154,127,87,.58); }
