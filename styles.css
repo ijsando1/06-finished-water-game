@@ -6,6 +6,7 @@
   --paper: #f4eddd;
   --paper-deep: #e8ddc6;
   --sun: #edb45d;
+  --font-family: "Proxima Nova", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -17,7 +18,7 @@ body {
   place-items: center;
   background: #172128;
   color: var(--ink);
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--font-family);
 }
 
 button { font: inherit; }
@@ -120,7 +121,15 @@ h2 span { color: var(--blue); }
 .note-rule { height: 1px; margin-bottom: 17px; background: rgba(47,124,145,.32); }
 .note-stats { display: flex; justify-content: space-between; color: var(--ink-soft); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .note-stats strong { display: block; color: var(--blue); font-family: Caveat, cursive; font-size: 26px; font-weight: 600; letter-spacing: 0; line-height: .7; }
+.difficulty-picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 22px 0 0; padding: 0; border: 0; }
+.difficulty-picker legend { grid-column: 1 / -1; margin-bottom: 8px; color: var(--blue); font-size: 9px; font-weight: 700; letter-spacing: .16em; }
+.difficulty-picker label { cursor: pointer; text-align: center; }
+.difficulty-picker input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.difficulty-picker label span { display: block; padding: 9px 4px; border: 1px solid rgba(47,124,145,.4); color: var(--ink-soft); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: color .2s, background .2s, border-color .2s; }
+.difficulty-picker label:hover span, .difficulty-picker input:checked + span { border-color: var(--blue); background: var(--blue); color: var(--paper); }
+.difficulty-picker input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 3px; }
 .continue-button { padding: 16px 22px 15px 28px; background: var(--sun); border-radius: 52% 48% 47% 53% / 44% 55% 45% 56%; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+.continue-button:disabled, .continue-button:disabled:hover { cursor: not-allowed; opacity: .5; transform: none; box-shadow: none; }
 .continue-button span { margin-left: 18px; font-size: 18px; }
 .tip { margin-top: 34px; color: var(--ink-soft); font-family: Caveat, cursive; font-size: 18px; transform: rotate(-2deg); }
 .tip span { margin-right: 8px; font-family: "DM Sans", sans-serif; font-size: 9px; }
@@ -171,6 +180,12 @@ h2 span { color: var(--blue); }
 
 .footer-mark { position: absolute; bottom: 30px; left: 54px; right: 54px; display: flex; align-items: center; justify-content: space-between; color: var(--ink-soft); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; }
 .footer-dots { color: var(--blue); letter-spacing: .4em; }
+.footer-link { color: inherit; text-decoration-color: var(--blue); text-underline-offset: 3px; }
+.footer-link:hover, .footer-link:focus-visible { color: var(--blue); }
+.game-shell h1, .game-shell h2, .annotation, .back-button, .back-button span,
+.note-stats strong, .tip, .tip span, .game-score, .game-score small, .timer,
+.timer small, .well span, .game-prompt, .score-number strong, .result-message,
+.score-message { font-family: var(--font-family); }
 
 @media (max-width: 600px) {
   .game-shell { min-height: 100vh; }

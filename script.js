@@ -9,10 +9,18 @@ const timerDisplay = document.querySelector('[data-timer]');
 const gameScoreDisplay = document.querySelector('[data-game-score]');
 const scoreDisplay = document.querySelector('[data-score]');
 const resultMessage = document.querySelector('[data-result-message]');
+const durationDisplay = document.querySelector('[data-duration]');
+const continueButton = document.querySelector('[data-continue]');
 const confettiLayer = document.querySelector('[data-confetti]');
 const drops = [...document.querySelectorAll('[data-drop]')];
-const gameDuration = 30;
+const difficultySettings = {
+  easy: { duration: 45, fallSpeed: 18 },
+  normal: { duration: 30, fallSpeed: 24 },
+  hard: { duration: 20, fallSpeed: 34 },
+};
 const confettiScoreThreshold = 20;
+let selectedDifficulty;
+let gameDuration = difficultySettings.normal.duration;
 let remainingTime = gameDuration;
 let scorePoints = 0;
 let animationFrame;
@@ -32,10 +40,11 @@ function startGame() {
   cancelAnimationFrame(animationFrame);
   confettiLayer.replaceChildren();
   resultMessage.textContent = '';
+  gameDuration = difficultySettings[selectedDifficulty].duration;
   remainingTime = gameDuration;
   scorePoints = 0;
   previousTime = performance.now();
-  timerDisplay.textContent = remainingTime;
+  updateTimerDisplay();
   updateScoreDisplay();
   well.style.left = '50%';
   drops.forEach((drop, index) => resetDrop(drop, index));
@@ -50,6 +59,12 @@ function updateScoreDisplay() {
   const displayedScore = String(scorePoints).padStart(2, '0');
   gameScoreDisplay.textContent = displayedScore;
   scoreDisplay.textContent = displayedScore;
+}
+
+function updateTimerDisplay() {
+  const seconds = Math.ceil(remainingTime);
+  timerDisplay.textContent = String(seconds).padStart(2, '0');
+  timerDisplay.parentElement.setAttribute('aria-label', `${seconds} seconds remaining`);
 }
 
 function updateConfetti() {
@@ -97,8 +112,8 @@ function updateGame(now) {
   const elapsed = Math.min((now - previousTime) / 1000, 0.1);
   previousTime = now;
   remainingTime = Math.max(0, remainingTime - elapsed);
-  timerDisplay.textContent = String(Math.ceil(remainingTime)).padStart(2, '0');
-  const fallSpeed = 24 + ((gameDuration - remainingTime) * 0.2);
+  updateTimerDisplay();
+  const fallSpeed = difficultySettings[selectedDifficulty].fallSpeed + ((gameDuration - remainingTime) * 0.2);
   const fieldHeight = rainField.clientHeight;
   const wellBounds = well.getBoundingClientRect();
   const fieldBounds = rainField.getBoundingClientRect();
@@ -135,6 +150,14 @@ function showCover() {
 
 document.querySelector('[data-start]').addEventListener('click', showObjective);
 document.querySelector('[data-back]').addEventListener('click', showCover);
+document.querySelectorAll('input[name="difficulty"]').forEach((input) => {
+  input.addEventListener('change', () => {
+    selectedDifficulty = input.value;
+    gameDuration = difficultySettings[selectedDifficulty].duration;
+    durationDisplay.textContent = String(gameDuration);
+    continueButton.disabled = false;
+  });
+});
 document.querySelector('[data-continue]').addEventListener('click', (event) => {
   event.preventDefault();
   showScreen(game);
